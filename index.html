@@ -40,18 +40,57 @@
         </div>
         <div class="todo-items-wrapper">
             <div class="todo-items">
+                <div class="todo-item">
+                    <div class="check">
+                        <div class="check-mark checked">
+                            <img src="assets/icon-check.svg">
+                        </div>
+                    </div>
+                    <div class="todo-text checked">
+                        Cut the lawn
+                    </div>
+                </div>
+                <div class="todo-item">
+                    <div class="check">
+                        <div class="check-mark">
+                            
+                        </div>
+                    </div>
+                    <div class="todo-text">
+                        Cut the lawn
+                    </div>
+                </div>
+                <div class="todo-item">
+                    <div class="check">
+                        <div class="check-mark">
+                        </div>
+                    </div>
+                    <div class="todo-text">
+                        Cut the lawn
+                    </div>
+                </div>
             </div>
             <div class="todo-items-info">
                 <div class="items-left" id="remaining-tasks">
-                    5 items left
+                    <span class="active">
+                        5 items left
+                    </span>
                 </div>
                 <div class="items-statuses">
-                    <span class="active">All</span>
-                    <span>Active</span>
-                    <span>Completed</span>
+                    <button id="button1" class="btn">
+                        <span id="all" class="active">All</span>
+                    </button>
+                    <button id="button2" class="btn">
+                        <span id="act">Active</span>
+                    </button>
+                    <button id="button3" class="btn">
+                        <span id="com">Completed</span>
+                    </button>
                 </div>
                 <div class="items-clear">
-                    <span>Clear Completed</span>
+                    <button id="button4" class="btn"> 
+                        <span id="clear">Clear Completed</span>
+                    </button>
                 </div>
             </div>
         </div>

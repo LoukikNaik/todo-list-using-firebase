@@ -164,7 +164,9 @@ body {
     justify-content: space-between;
     padding-right: 30px;
 }
-
+.btn{
+    all:unset;
+}
 .items-statuses {
     display: flex;
     justify-content: center;
@@ -180,11 +182,18 @@ body {
     text-align: end;
 }
 
-.items-statuses span:hover, .items-clear:hover {
+.items-statuses span:hover {
+    color: hsl(220, 98%, 61%);
+}
+
+.items-left span:hover, .items-clear:hover {
     color: hsl(220, 98%, 61%);
 }
 
 .items-statuses .active  {
+    color: hsl(220, 98%, 61%);
+}
+.items-left .active  {
     color: hsl(220, 98%, 61%);
 }
 

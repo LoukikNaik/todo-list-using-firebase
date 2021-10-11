@@ -34,17 +34,92 @@
         })
         text.value = "";
     }
+    var k=0;
     document.getElementById("additem").onsubmit=function(){addItems(event)};
+    document.getElementById("button1").onclick=function(){newList1()};
+    function newList1(){
+        k=0;
+        document.getElementById("all").className="active";
+        document.getElementById("act").className="unactive";
+        document.getElementById("com").className="unactive";
+        getItems();
+    }
+    document.getElementById("button2").onclick=function(){newList2()};
+    function newList2(){
+        k=1;
+        document.getElementById("all").className="unactive";
+        document.getElementById("act").className="active";
+        document.getElementById("com").className="unactive"; 
+        getItems();
+    }
+    document.getElementById("button3").onclick=function(){newList3()};
+    function newList3(){
+        k=2;
+        document.getElementById("all").className="unactive";
+        document.getElementById("act").className="unactive";
+        document.getElementById("com").className="active"; 
+        getItems();
+    }
+    document.getElementById("button4").onclick=function(){clearAll()};
+    function clearAll(){
+        db.collection("todo-items").onSnapshot((snapshot) => {
+            console.log(Object.keys(snapshot.docs).length);
+            let n=Object.keys(snapshot.docs).length;
+            console.log(n);
+            for(let i=0;i<n;i++){
+                console.log(snapshot.docs[i].data().text);
+                if(snapshot.docs[i].data().status=="completed"){
+                db.collection("todo-items").doc(snapshot.docs[i].id).delete();
+                }
+
+            }
+            // var z=0;
+            // let items = [];
+            // snapshot.docs.forEach((doc1) => {
+            //     console.log("Hello");
+            //     if(doc1.data().status=='completed')
+            //     {
+            //         db.collection("todo-items").doc(doc1.id).delete();
+            //         z=1;
+            //         return;
+            //     }
+            // })
+            }) 
+        // db.collection("todo-items").doc.data().status("completed").delete();
+    }
 
     function getItems(){
     db.collection("todo-items").onSnapshot((snapshot) => {
     console.log(snapshot);
     let items = [];
     snapshot.docs.forEach((doc) => {
-        items.push({
-            id: doc.id, 
-            ...doc.data()
-        })
+        console.log(doc.data()); 
+        if(k==1)
+        {
+            if(doc.data().status=="active")
+            {
+                items.push({
+                    id: doc.id, 
+                    ...doc.data()
+                }) 
+            }
+        }
+        else if(k==2){
+            if(doc.data().status=='completed')
+            {
+                items.push({
+                    id: doc.id,
+                    ...doc.data()
+                })
+            }
+        }
+        else{
+            items.push({
+                id: doc.id, 
+                ...doc.data()
+            })
+        }
+
     })
     generateItems(items);
     })
@@ -81,9 +156,10 @@ function generateItems(items){
         todoItem.appendChild(todoText);
         todoItems.push(todoItem)
     })
-    var str="";
+    var str="<span>";
     str+=String(l);
     str+=" Items Left";
+    str+="</span>";
     document.getElementById("remaining-tasks").innerHTML=str;
     document.querySelector(".todo-items").replaceChildren(...todoItems);
 }
