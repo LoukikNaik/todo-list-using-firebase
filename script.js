@@ -22,6 +22,7 @@
     // const app = initializeApp(firebaseConfig);
     // const analytics = getAnalytics(app);
     var db=firebase.firestore();
+    var db1=firebase.firestore();
         
     function addItems(event){
         event.preventDefault();
@@ -60,40 +61,43 @@
         document.getElementById("com").className="active"; 
         getItems();
     }
-    document.getElementById("button4").onclick=function(){clearAll()};
-    function clearAll(){
-        db.collection("todo-items").onSnapshot((snapshot) => {
-            console.log(Object.keys(snapshot.docs).length);
-            let n=Object.keys(snapshot.docs).length;
-            console.log(n);
-            for(let i=0;i<n;i++){
-                console.log(snapshot.docs[i].data().text);
-                if(snapshot.docs[i].data().status=="completed"){
-                db.collection("todo-items").doc(snapshot.docs[i].id).delete();
-                }
 
+
+    document.getElementById("button4").onclick=function(){clearAll()};
+    var list1=[];
+    function clearAll(){
+        console.log(db.collection("todo-items"));
+        var n;
+        db.collection("todo-items").onSnapshot((snapshot) => {
+            //console.log(Object.keys(snapshot.docs).length);
+            n=Object.keys(snapshot.docs).length;
+            console.log(n);
+            for(var i=0;i<Object.keys(snapshot.docs).length;i++){
+                //console.log("gg");
+                if(snapshot.docs[i].data().status=="completed"){
+                list1[i]=snapshot.docs[i].id;
+                console.log(list1[i]);
+                }
             }
-            // var z=0;
-            // let items = [];
-            // snapshot.docs.forEach((doc1) => {
-            //     console.log("Hello");
-            //     if(doc1.data().status=='completed')
-            //     {
-            //         db.collection("todo-items").doc(doc1.id).delete();
-            //         z=1;
-            //         return;
-            //     }
-            // })
             }) 
-        // db.collection("todo-items").doc.data().status("completed").delete();
+        delItems(list1);
+    }
+
+    function delItems(list1){
+        console.log(list1);
+        list1.forEach((item1) =>{
+            console.log(item1);
+            let item = db.collection("todo-items").doc(item1);
+            item.delete();
+        }) 
     }
 
     function getItems(){
     db.collection("todo-items").onSnapshot((snapshot) => {
-    console.log(snapshot);
+    //console.log(snapshot);
     let items = [];
     snapshot.docs.forEach((doc) => {
-        console.log(doc.data()); 
+        //console.log(doc.data()); 
         if(k==1)
         {
             if(doc.data().status=="active")
@@ -129,7 +133,7 @@ function generateItems(items){
     let todoItems = []
     let l=0
     items.forEach((item) => {
-        console.log(item.text)
+        //console.log(item.text)
         if(item.status=='active')
         l+=1;
         let todoItem = document.createElement("div");
@@ -181,6 +185,7 @@ function markCompleted(id){
     let item = db.collection("todo-items").doc(id);
     item.get().then(function(doc) {
         if (doc.exists) {
+            console.log("ssup");
             if(doc.data().status == "active"){
                 item.update({
                     status: "completed"
